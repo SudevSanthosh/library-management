@@ -1,8 +1,16 @@
 import React from "react";
-import { Header } from "../components/Header";
+import { admin } from "../assets/admin";
+import LoginForm from "../components/LoginForm";
 
 const LoginPage = () => {
-  return <Header />;
+  console.log(admin);
+  return (
+    <>
+      <LoginForm />
+    </>
+  );
 };
 
 export default LoginPage;
+
+
