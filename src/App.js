@@ -1,21 +1,14 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Page1 from "./pages/Page1";
-import Page2 from "./pages/Page2";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Page1 />} />
-        <Route path="/page2" element={<Page2 />} />
+        <Route path="/" element={<LoginPage/>} />
       </Routes>
-      <Link to="/" style={{ padding: 5 }}>
-        Home
-      </Link>
-      <Link to="/page2" style={{ padding: 5 }}>
-        Page 2
-      </Link>
     </Router>
   );
 }
