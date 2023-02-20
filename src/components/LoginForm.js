@@ -1,20 +1,28 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import { MDBContainer, MDBInput} from "mdb-react-ui-kit";
+import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
-
+import { getUserValidation } from "../functions/getUserValidation";
 
 function LoginForm() {
+  const [formData, setFormData] = React.useState({
+    userName: "",
+    passWord: "",
+  });
+
   const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
+    const isAuthenticated = getUserValidation(formData);
+    console.log(isAuthenticated);
 
-    console.log("form submission");
-    console.log(formData.userName);
-    console.log(formData.passWord);
-    navigate("/welcomePage");
+    if (isAuthenticated.err === false) {
+      navigate("/welcomePage");
+      console.log(isAuthenticated);
+    }
   }
+
   function handleChange(event) {
     setFormData((prevFormData) => {
       return {
@@ -23,13 +31,9 @@ function LoginForm() {
       };
     });
   }
-  const [formData, setFormData] = React.useState({
-    userName: "",
-    passWord: "",
-  });
+
   return (
     <>
-    
       <form onSubmit={handleSubmit}>
         <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
           <MDBInput
@@ -51,12 +55,8 @@ function LoginForm() {
             onChange={handleChange}
             required
           />
-          <Button
-            as="input"
-            type="submit"
-            value="Sign in "
-            bsClass="bg-sky-600"
-          />
+
+          <Button as="input" type="submit" value="Sign in " />
           <div className="text-center">
             <p>
               Not a member? <a href="#!">Register</a>
@@ -64,7 +64,6 @@ function LoginForm() {
           </div>
         </MDBContainer>
       </form>
-     
     </>
   );
 }
