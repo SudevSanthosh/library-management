@@ -3,26 +3,14 @@ import useGetApiData from "../hooks/useGetApiData";
 import Card from "./Card";
 import "../App.css";
 import { useState } from "react";
+
+import filterData from "../functions/getFilteredData";
 export const Books = () => {
-  const [books] = useGetApiData("https://jsonplaceholder.typicode.com/posts");
-  const [filteredList, setFilteredList] = useState(books);
+  const [filteredList, data, setFilteredList] = useGetApiData(
+    "https://jsonplaceholder.typicode.com/posts"
+  );
+
   const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearch = (event) => {
-    const query = event.target.value.toUpperCase();
-    setSearchQuery(query);
-
-    const searchList = books.filter((item) => {
-    const name = item.title.toUpperCase();
-    return name.includes(searchQuery);
-
-      // return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    });
-
-    setFilteredList(searchList);
-  };
-  console.log("list:" , filteredList);
-
   const card = filteredList.map((item) => {
     return (
       <>
@@ -49,7 +37,11 @@ export const Books = () => {
                 aria-label="Search"
                 aria-describedby="button-addon1"
                 value={searchQuery}
-                onChange={handleSearch}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  const item = filterData(searchQuery, data);
+                  setFilteredList(item);
+                }}
               />
               <button
                 class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"

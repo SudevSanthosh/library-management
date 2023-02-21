@@ -2,14 +2,18 @@ import { useState, useEffect } from "react";
 
 const useGetApiData = (url) => {
   const [data, setData] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setData(data));
+ fetchPost(url);
   }, [url]);
-
-  return [data];
+async function fetchPost(url){
+const res = await fetch(url);
+const data = await res.json();
+setData(data);
+setFilteredList(data);
+}
+  return [filteredList , data , setFilteredList];
 };
 
 export default useGetApiData;
