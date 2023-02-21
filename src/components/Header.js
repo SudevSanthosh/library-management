@@ -4,6 +4,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 export const Header = () => {
+  const selectedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  const initials = selectedUser.name.match(/\b(\w)/g).join("");
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -11,12 +13,18 @@ export const Header = () => {
           <Navbar.Brand href="/">Central Library</Navbar.Brand>
 
           <Nav>
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/">Features</Nav.Link>
-            <Nav.Link href="/">Pricing</Nav.Link>
-            <Navbar.Text className="h4 ml-8 bg-white text-black p-1  cursor-pointer border-4 border-secondary">
-           SS
-          </Navbar.Text>
+            <Nav.Link href="/" className="bg-primary text-white">
+              Home
+            </Nav.Link>
+            <Nav.Link href="/" className="bg-primary text-white">
+              Features
+            </Nav.Link>
+            <Nav.Link href="/" className="bg-danger text-white ">
+              Logout
+            </Nav.Link>
+            <Navbar.Text className="ml-4 p-2  font-weight-bold  text-white bg-primary ">
+              {initials}
+            </Navbar.Text>
           </Nav>
         </Container>
       </Navbar>
