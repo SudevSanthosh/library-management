@@ -39,3 +39,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+  margin-block: 2rem;
+  border-radius: 12px;
+  gap: 2rem;
+  background: white;
+  outline: 3px solid #182c61;
+}
+
+.card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-body h5 {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  color: #2d3436;
+}
+
+.card-body p {
+  font-size: 1rem;
+}
+
+.card-footer {
+  display: flex;
+  padding: 1rem;
+  margin-top: auto;
+}
+.post-list {
+  display: grid;
+  grid-gap: 10px;
+  grid-template: auto auto / repeat(3, 1fr);
+  padding: 10px;
+}

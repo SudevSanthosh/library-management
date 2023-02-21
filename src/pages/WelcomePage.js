@@ -1,13 +1,14 @@
 import React from 'react'
-import { BookCards } from '../components/BookCards'
+import { Books } from '../components/Books'
 import { Header } from '../components/Header'
 
 const WelcomePage = () => {
+
   return (
     <>
         <Header/>
         
-        <BookCards/>
+        <Books/>
     </>
   )
 }
