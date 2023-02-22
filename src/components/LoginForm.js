@@ -11,19 +11,22 @@ function LoginForm() {
   });
 
   const navigate = useNavigate();
+  const [error, setError] = React.useState(false);
+  const isAuthenticated = getUserValidation(formData);
 
   function handleSubmit(event) {
     event.preventDefault();
-    const isAuthenticated = getUserValidation(formData);
+    setError(true);
     console.log(isAuthenticated);
 
     if (isAuthenticated.err === false) {
       navigate("/welcomePage");
-      console.log(isAuthenticated);
+      console.log(isAuthenticated.errorMessage);
     }
   }
 
   function handleChange(event) {
+    setError(false);
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -34,6 +37,7 @@ function LoginForm() {
 
   return (
     <>
+      <h1 className="text-center mt-20"> Welcome to Central Library</h1>
       <form onSubmit={handleSubmit}>
         <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
           <MDBInput
@@ -57,11 +61,11 @@ function LoginForm() {
           />
 
           <Button as="input" type="submit" value="Sign in " />
-          <div className="text-center">
-            <p>
-              Not a member? <a href="#!">Register</a>
-            </p>
-          </div>
+          {error ? (
+            <div className="text-center text-red-700 mt-4 font-bold ">
+              <p>{isAuthenticated.errorMessage}</p>
+            </div>
+          ) : null}
         </MDBContainer>
       </form>
     </>

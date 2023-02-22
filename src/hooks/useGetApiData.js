@@ -5,15 +5,15 @@ const useGetApiData = (url) => {
   const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
- fetchPost(url);
+    fetchPost(url);
   }, [url]);
-async function fetchPost(url){
-const res = await fetch(url);
-const data = await res.json();
-setData(data);
-setFilteredList(data);
-}
-  return [filteredList , data , setFilteredList];
+  async function fetchPost(url) {
+    const res = await fetch(url);
+    const data = await res.json();
+    setData(data);
+    setFilteredList(data);
+  }
+  return [filteredList, data, setFilteredList];
 };
 
 export default useGetApiData;
