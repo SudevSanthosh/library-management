@@ -3,8 +3,9 @@ import useGetApiData from "../hooks/useGetApiData";
 import Card from "./Card";
 import "../App.css";
 import { useState } from "react";
-
 import filterData from "../functions/getFilteredData";
+import AddBook from "./AddBook";
+
 export const Books = () => {
   const [filteredList, data, setFilteredList] = useGetApiData(
     "https://jsonplaceholder.typicode.com/posts"
@@ -14,12 +15,7 @@ export const Books = () => {
   const card = filteredList.map((item) => {
     return (
       <>
-        <Card
-          postid={item.id}
-          title={item.title}
-          username={item.userId}
-          postBody={item.body}
-        />
+        <Card key={item.id} title={item.title} body={item.body} />
       </>
     );
   });
@@ -64,6 +60,11 @@ export const Books = () => {
                 </svg>
               </button>
             </div>
+
+<AddBook/>
+
+        
+      
           </div>
         </div>
       </div>
