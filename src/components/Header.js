@@ -13,12 +13,17 @@ export const Header = () => {
           <Navbar.Brand href="/">Central Library</Navbar.Brand>
 
           <Nav>
-            <Nav.Link href="/" className="bg-primary text-white">
+            <Nav.Link href="/welcomePage" className="bg-primary text-white">
               Home
             </Nav.Link>
-            <Nav.Link href="/" className="bg-primary text-white">
-              Features
-            </Nav.Link>
+
+
+            {
+              selectedUser.isStudent === true || selectedUser.isAdmin === true ? null : (  <Nav.Link href="/studentList" className="bg-primary text-white">
+              Students List
+            </Nav.Link>)
+            }
+          
             <Nav.Link href="/" className="bg-danger text-white ">
               Logout
             </Nav.Link>

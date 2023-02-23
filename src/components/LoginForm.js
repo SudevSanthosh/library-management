@@ -11,19 +11,24 @@ function LoginForm() {
   });
 
   const navigate = useNavigate();
+  const options = ["Admin", "Librarian", "Student"];
   const [error, setError] = React.useState(false);
-  const isAuthenticated = getUserValidation(formData);
-
+  const [selectedOption, setSelectedOption] = React.useState('Admin');
+  const isAuthenticated = getUserValidation(formData, selectedOption);
+  
   function handleSubmit(event) {
     event.preventDefault();
     setError(true);
-    console.log(isAuthenticated);
 
     if (isAuthenticated.err === false) {
       navigate("/welcomePage");
-      console.log(isAuthenticated.errorMessage);
     }
   }
+
+  const handleOptionSelect = (event) => {
+    setSelectedOption(event.target.value);
+    
+  };
 
   function handleChange(event) {
     setError(false);
@@ -38,6 +43,7 @@ function LoginForm() {
   return (
     <>
       <h1 className="text-center mt-20"> Welcome to Central Library</h1>
+
       <form onSubmit={handleSubmit}>
         <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
           <MDBInput
@@ -59,6 +65,21 @@ function LoginForm() {
             onChange={handleChange}
             required
           />
+          <div className="mb-4">
+            <label htmlFor="dropdown">Select user type : </label>
+            <select
+              id="dropdown"
+              value={selectedOption}
+              onChange={handleOptionSelect}
+              className="ml-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              {options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <Button as="input" type="submit" value="Sign in " />
           {error ? (
@@ -67,7 +88,10 @@ function LoginForm() {
             </div>
           ) : null}
         </MDBContainer>
-      </form>
+      </form
+      
+      
+      >
     </>
   );
 }
