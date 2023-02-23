@@ -1,12 +1,14 @@
 import React from "react";
 
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
+import Card from "./Card";
 
 const AddBook = () => {
   const [formData, setFormData] = React.useState({
     title: "",
     about: "",
   });
+  const [addBook, setAddBook] = React.useState(false);
 
   function handleChange(event) {
     setFormData((prevFormData) => {
@@ -17,9 +19,10 @@ const AddBook = () => {
     });
   }
 
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
-    console.log("submitted");
+    console.log(formData.about, formData.title);
+    setAddBook(true);
   }
   return (
     <>
@@ -68,6 +71,7 @@ const AddBook = () => {
           </button>
         </MDBContainer>
       </form>
+      { addBook ? <Card title={formData.title} body={formData.about} /> : null}
     </>
   );
 };

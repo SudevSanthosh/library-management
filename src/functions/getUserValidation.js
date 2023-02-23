@@ -1,24 +1,71 @@
-import { admin } from "../assets/admin";
+import { admin, students } from "../assets/data";
+import { employees } from "../assets/data";
 
-export const getUserValidation = (formData) => {
-    console.log(admin)
-    const errors = {};
-    const enteredUsername = formData.userName;
-    const enteredPassword = formData.passWord;
+export const getUserValidation = (formData, option) => {
+  const errors = {};
+  const enteredUsername = formData.userName;
+  const enteredPassword = formData.passWord;
+  console.log("logged in as", option);
 
+  let matchFound = false;
 
-    console.log(enteredUsername, enteredPassword)
-  
-    admin.forEach((item) => {
-      if (item.email !== enteredUsername || item.password !== enteredPassword) {
-        
-        errors.errorMessage = "Invalid username or password";
-      } else {
-        localStorage.setItem("loggedInUser", JSON.stringify(item));
-     
-      
+  switch (option) {
+    case "Admin":
+      admin.forEach((item) => {
+        if (
+          item.email === enteredUsername &&
+          item.password === enteredPassword &&
+          item.isAdmin === true
+        ) {
+          localStorage.setItem("loggedInUser", JSON.stringify(item));
+          matchFound = true;
+        }
+      });
+      if (matchFound) {
         errors.err = false;
+      } else {
+        errors.errorMessage = "Invalid Username/Password or Usertype";
       }
-    });
-    return errors;
-  };
+      break;
+
+    case "Librarian":
+      employees.forEach((item) => {
+        if (
+          item.email === enteredUsername &&
+          item.password === enteredPassword &&
+          item.isEmp === true
+        ) {
+          localStorage.setItem("loggedInUser", JSON.stringify(item));
+          matchFound = true;
+        }
+      });
+      if (matchFound) {
+        errors.err = false;
+      } else {
+        errors.errorMessage = "Invalid Username/Password or Usertype";
+      }
+      break;
+
+    case "Student":
+      students.forEach((item) => {
+        if (
+          item.email === enteredUsername &&
+          item.password === enteredPassword &&
+          item.isStudent === true
+        ) {
+          localStorage.setItem("loggedInUser", JSON.stringify(item));
+          matchFound = true;
+        }
+      });
+      if (matchFound) {
+        errors.err = false;
+      } else {
+        errors.errorMessage = "Invalid Username/Password or Usertype";
+      }
+      break;
+
+    default:
+      return errors;
+  }
+  return errors;
+};
