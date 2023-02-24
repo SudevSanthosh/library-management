@@ -33,7 +33,7 @@ const StudentList = () => {
             </tbody>
           </table>
         </div>
-      </div>x
+      </div>
     </>
   );
 };
