@@ -5,7 +5,7 @@ export const getUserValidation = (formData, option) => {
   const errors = {};
   const enteredUsername = formData.userName;
   const enteredPassword = formData.passWord;
-  console.log("logged in as", option);
+
 
   let matchFound = false;
 

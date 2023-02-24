@@ -7,7 +7,8 @@ import AddBook from "./AddBook";
 
 export const Books = () => {
   const selectedUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  console.log(selectedUser);
+  const [items, setItems] = useState([]);
+
   const [filteredList, data, setFilteredList] = useGetApiData(
     "https://jsonplaceholder.typicode.com/posts"
   );
@@ -18,10 +19,15 @@ export const Books = () => {
       return oldValues.filter((item) => item !== value);
     });
   };
+
+  function getThisBook(book) {
+    const newItem = { name: selectedUser.name, value: book.title };
+    const newItems = [...items, newItem];
+    setItems(newItems);
+  }
   const card = filteredList.map((item, index) => {
     return (
       <>
-        
         <div className="card" key={index}>
           <div className="card-body">
             <h5>{item.title}</h5>
@@ -32,8 +38,13 @@ export const Books = () => {
           </div>
 
           <div className="card-footer">
+            {selectedUser.isStudent ? (
+              <div>
+                <button onClick={() => getThisBook(item)}>Get this book</button>
+              </div>
+            ) : null}
             <div className="user">
-              {selectedUser.isStudent ? null : (
+              {selectedUser.isStudent || selectedUser.isEmp ? null : (
                 <div className="user-info">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -99,10 +110,10 @@ export const Books = () => {
                 </svg>
               </button>
             </div>
-      <AddBook />
           </div>
         </div>
       </div>
+      {selectedUser.isEmp ? null : <AddBook />}
 
       <div className="post-list">{card}</div>
     </>
