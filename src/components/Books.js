@@ -7,25 +7,60 @@ import AddBook from "./AddBook";
 
 export const Books = () => {
   const selectedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
   const [items, setItems] = useState([]);
 
   const [filteredList, data, setFilteredList] = useGetApiData(
     "https://jsonplaceholder.typicode.com/posts"
   );
-
+  const totalPages = Math.ceil(filteredList.length / itemsPerPage);
   const [searchQuery, setSearchQuery] = useState("");
+
   const deleteItem = (value) => {
     setFilteredList((oldValues) => {
       return oldValues.filter((item) => item !== value);
     });
   };
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredList.slice(indexOfFirstItem, indexOfLastItem);
 
   function getThisBook(book) {
     const newItem = { name: selectedUser.name, value: book.title };
-    const newItems = [...items, newItem];
+    let newItems = [];
+
+    console.log(newItem);
+    if (localStorage.getItem("bookHire")) {
+      console.log("value available");
+
+      console.log(JSON.parse(localStorage.getItem("bookHire")));
+      localStorage.setItem(
+        "bookHire",
+        JSON.stringify([JSON.parse(localStorage.getItem("bookHire")), newItem])
+      );
+    } else {
+      localStorage.setItem("bookHire", JSON.stringify([newItem]));
+
+      console.log("no value available");
+    }
+    console.log(localStorage.getItem("bookHire"));
+
     setItems(newItems);
+    console.log(newItems);
   }
-  const card = filteredList.map((item, index) => {
+
+  console.log(localStorage.getItem("bookHire"));
+  const handlePrevPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const card = currentItems.map((item, index) => {
     return (
       <>
         <div className="card" key={index}>
@@ -116,6 +151,22 @@ export const Books = () => {
       {selectedUser.isEmp ? null : <AddBook />}
 
       <div className="post-list">{card}</div>
+      <div className="flex justify-center mb-2">
+        <button
+          className="btn btn-primary"
+          disabled={currentPage === 1}
+          onClick={handlePrevPage}
+        >
+          Previous
+        </button>
+        <button
+          className="btn btn-primary ml-4"
+          disabled={currentPage === totalPages}
+          onClick={handleNextPage}
+        >
+          Next
+        </button>
+      </div>
     </>
   );
 };
