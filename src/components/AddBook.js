@@ -1,7 +1,6 @@
 import React from "react";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 
-
 const AddBook = () => {
   const [formData, setFormData] = React.useState({
     title: "",
@@ -32,10 +31,9 @@ const AddBook = () => {
     setFormData({ title: "", about: "" });
   }
 
-   const card = books.map((item, index) => {
+  const card = books.map((item, index) => {
     return (
       <>
-        
         <div className="card" key={index}>
           <div className="card-body">
             <h5>{item.title}</h5>
@@ -45,12 +43,11 @@ const AddBook = () => {
             </p>
           </div>
 
-  
           <div className="card-footer">
             <div className="user">
-              {selectedUser.isStudent ? <div>
-                Get this book
-              </div> : (
+              {selectedUser.isStudent ? (
+                <div>Get this book</div>
+              ) : (
                 <div className="user-info">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -124,9 +121,10 @@ const AddBook = () => {
         </MDBContainer>
       </form>
       <div className="post-list">{card}</div>
-
     </>
   );
 };
 
 export default AddBook;
+
+

@@ -3,6 +3,7 @@ import { Header } from "../components/Header";
 import { students } from "../assets/data";
 
 const StudentList = () => {
+  console.log("studentlist", localStorage.getItem("bookHire"));
   return (
     <>
       <Header />
