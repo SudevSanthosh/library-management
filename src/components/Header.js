@@ -6,6 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 export const Header = () => {
   const selectedUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const initials = selectedUser.name.match(/\b(\w)/g).join("");
+
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -17,14 +18,20 @@ export const Header = () => {
               Home
             </Nav.Link>
 
+            {selectedUser.isStudent === true ||
+            selectedUser.isAdmin === true ? null : (
+              <Nav.Link href="/studentList" className="bg-primary text-white">
+                Students List
+              </Nav.Link>
+            )}
 
-            {
-              selectedUser.isStudent === true || selectedUser.isAdmin === true ? null : (  <Nav.Link href="/studentList" className="bg-primary text-white">
-              Students List
-            </Nav.Link>)
-            }
-          
-            <Nav.Link href="/" className="bg-danger text-white ">
+            <Nav.Link
+              href="/"
+              className="bg-danger text-white "
+              onClick={() => {
+                localStorage.removeItem("loggedInUser");
+              }}
+            >
               Logout
             </Nav.Link>
             <Navbar.Text className="ml-4 p-2  font-weight-bold  text-white bg-primary ">

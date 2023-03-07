@@ -8,9 +8,7 @@ import AddBook from "./AddBook";
 export const Books = () => {
   const selectedUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
-
-  const [items, setItems] = useState([]);
+  const itemsPerPage = 6;
 
   const [filteredList, data, setFilteredList] = useGetApiData(
     "https://jsonplaceholder.typicode.com/posts"
@@ -29,12 +27,9 @@ export const Books = () => {
 
   function getThisBook(book) {
     const newItem = { name: selectedUser.name, value: book.title };
-    let newItems = [];
 
     console.log(newItem);
     if (localStorage.getItem("bookHire")) {
-      console.log("value available");
-
       console.log(JSON.parse(localStorage.getItem("bookHire")));
       localStorage.setItem(
         "bookHire",
@@ -42,16 +37,13 @@ export const Books = () => {
       );
     } else {
       localStorage.setItem("bookHire", JSON.stringify([newItem]));
-
-      console.log("no value available");
     }
-    console.log(localStorage.getItem("bookHire"));
-
-    setItems(newItems);
-    console.log(newItems);
+    setFilteredList((oldValues) => {
+      return oldValues.filter((item) => item !== book);
+    });
+   alert("Book Added");
   }
 
-  console.log(localStorage.getItem("bookHire"));
   const handlePrevPage = () => {
     setCurrentPage(currentPage - 1);
   };
@@ -75,7 +67,9 @@ export const Books = () => {
           <div className="card-footer">
             {selectedUser.isStudent ? (
               <div>
-                <button onClick={() => getThisBook(item)}>Get this book</button>
+                <button onClick={() => getThisBook(item)}>
+                  Get this book
+                </button>
               </div>
             ) : null}
             <div className="user">

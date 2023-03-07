@@ -29,6 +29,7 @@ const AddBook = () => {
     };
     setBooks((prevBooks) => [...prevBooks, bookData]);
     setFormData({ title: "", about: "" });
+    localStorage.setItem("addedBooks", JSON.stringify([...books, bookData]));
   }
 
   const card = books.map((item, index) => {
