@@ -25,6 +25,11 @@ export const Header = () => {
               </Nav.Link>
             )}
 
+            {selectedUser.isStudent === true ? (
+              <Nav.Link href="/myProfile" className="bg-primary text-white">
+                My Profile
+              </Nav.Link>
+            ) : null}
             <Nav.Link
               href="/"
               className="bg-danger text-white "
