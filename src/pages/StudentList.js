@@ -4,21 +4,13 @@ import { students } from "../assets/data";
 
 const StudentList = () => {
   const data = JSON.parse(localStorage.getItem("bookHire"));
-  const flattenedData = data?.flat(Infinity) || [];
-  const uniqueData = flattenedData.reduce((acc, curr) => {
-    const existingObj = acc.find(
-      (obj) => obj.name === curr.name && obj.value === curr.value
-    );
-    if (!existingObj) {
-      acc.push(curr);
-    }
 
-    return acc;
-  }, []);
-  console.log(uniqueData);
   return (
     <>
-      <Header />
+      <header>
+        <Header />
+      </header>
+
       <div className="min-h-screen flex items-center justify-center bg-gray-200">
         <div className="w-full max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 mt-2">Students List</h1>
@@ -42,22 +34,19 @@ const StudentList = () => {
                   <td className="px-4 py-2">{student.name}</td>
                   <td className="px-4 py-2">{student.roll_no}</td>
                   <td className="px-4 py-2">{student.department}</td>
-                  {
-                    uniqueData ? (    <td className="px-4 py-2">
-                    {uniqueData.find((book) => book.name === student.name)
-                      ? 
-                        uniqueData
-                          .filter((book) => book.name === student.name)
-                          .map((book) => (
-                            <span key={book.id}>
-                              <li>{book.value}</li>
-                            </span>
-                          ))
-                      : 
-                        "NIL"}
-                  </td>) : null
-                  }
-               
+                  {data ? (
+                    <td className="px-4 py-2">
+                      {data.find((book) => book.name === student.name)
+                        ? data
+                            .filter((book) => book.name === student.name)
+                            .map((book) => (
+                              <span key={book.id}>
+                                <li>{book.value}</li>
+                              </span>
+                            ))
+                        : "NIL"}
+                    </td>
+                  ) : null}
                 </tr>
               ))}
             </tbody>
