@@ -6,6 +6,7 @@ import filterData from "../functions/getFilteredData";
 import AddBook from "./AddBook";
 
 export const Books = () => {
+  const newBooksAdded = JSON.parse(localStorage.getItem("addedBooks")) || [];
   const selectedUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -30,18 +31,16 @@ export const Books = () => {
 
     console.log(newItem);
     if (localStorage.getItem("bookHire")) {
-      console.log(JSON.parse(localStorage.getItem("bookHire")));
-      localStorage.setItem(
-        "bookHire",
-        JSON.stringify([JSON.parse(localStorage.getItem("bookHire")), newItem])
-      );
+      const bookHireArray = JSON.parse(localStorage.getItem("bookHire"));
+      const newBookHireArray = bookHireArray.concat(newItem);
+      localStorage.setItem("bookHire", JSON.stringify(newBookHireArray));
     } else {
       localStorage.setItem("bookHire", JSON.stringify([newItem]));
     }
     setFilteredList((oldValues) => {
       return oldValues.filter((item) => item !== book);
     });
-   alert("Book Added");
+    alert("Book Added");
   }
 
   const handlePrevPage = () => {
@@ -51,7 +50,27 @@ export const Books = () => {
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
   };
+  const newBooks = newBooksAdded.map((item, index) => {
+    return (
+      <div className="card" key={index}>
+        <div className="card-body">
+          <h5>{item.title}</h5>
+          <p>
+            <b>About the book : </b>
+            {item.body}
+          </p>
+        </div>
 
+        <div className="card-footer">
+          {selectedUser.isStudent ? (
+            <div>
+              <button onClick={() => getThisBook(item)}>Get this book</button>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    );
+  });
   const card = currentItems.map((item, index) => {
     return (
       <>
@@ -67,9 +86,7 @@ export const Books = () => {
           <div className="card-footer">
             {selectedUser.isStudent ? (
               <div>
-                <button onClick={() => getThisBook(item)}>
-                  Get this book
-                </button>
+                <button onClick={() => getThisBook(item)}>Get this book</button>
               </div>
             ) : null}
             <div className="user">
@@ -107,6 +124,7 @@ export const Books = () => {
             <div class="relative mb-4 flex w-full flex-wrap items-stretch">
               <input
                 type="search"
+                label="search"
                 class="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-black-300 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-black outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-200"
                 placeholder="Search for books by title..."
                 aria-label="Search"
@@ -142,9 +160,11 @@ export const Books = () => {
           </div>
         </div>
       </div>
-      {selectedUser.isEmp ? null : <AddBook />}
 
+      {selectedUser?.isEmp ? null : <AddBook />}
+      <div className="post-list">{newBooks}</div>
       <div className="post-list">{card}</div>
+
       <div className="flex justify-center mb-2">
         <button
           className="btn btn-primary"

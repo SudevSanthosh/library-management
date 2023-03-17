@@ -46,7 +46,7 @@ const AddBook = () => {
 
           <div className="card-footer">
             <div className="user">
-              {selectedUser.isStudent ? (
+              {selectedUser && selectedUser.isStudent ? (
                 <div>Get this book</div>
               ) : (
                 <div className="user-info">
@@ -88,12 +88,12 @@ const AddBook = () => {
             onChange={handleChange}
             required
           />
-          <MDBInput
-            wrapperClass="mb-4"
+          <textarea
+            className="form-control mb-4"
             placeholder="About the book"
-            type="text"
             id="form2"
             name="about"
+            rows={2}
             value={formData.about}
             onChange={handleChange}
             required
@@ -127,5 +127,3 @@ const AddBook = () => {
 };
 
 export default AddBook;
-
-

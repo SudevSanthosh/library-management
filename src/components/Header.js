@@ -4,8 +4,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 export const Header = () => {
-  const selectedUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  const initials = selectedUser.name.match(/\b(\w)/g).join("");
+  const selectedUser = JSON.parse(localStorage.getItem("loggedInUser")) || {};
+  const initials = selectedUser.name ? selectedUser.name.match(/\b(\w)/g).join("") : "";
 
   return (
     <>
